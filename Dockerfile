@@ -1,4 +1,5 @@
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.5
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
 MAINTAINER Muhammad Edwin < edwin at redhat dot com >
 
@@ -6,6 +7,7 @@ LABEL BASE_IMAGE="registry.access.redhat.com/ubi8/ubi-minimal:8.5"
 LABEL JAVA_VERSION="11"
 
 RUN microdnf install --nodocs java-21-openjdk-headless && microdnf clean all
+RUN mvn clean package -DskipTests
 
 WORKDIR /work/
 COPY target/*.jar /work/application.jar
